@@ -1,24 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import useSWR, {SWRConfig} from 'swr'
+
+function Data() {
+  const { data } = useSWR('something data api adress')
+
+  // return ( ... )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SWRConfig value={{
+      refreshInterval: 3000,
+      fetcher: (resource, init) => fetch(resource,init).then(res => res.json())
+    }}>
+      <Data />
+    </SWRConfig>
   );
 }
 
